@@ -1,26 +1,224 @@
 @import "tailwindcss";
 
+/* ─── App Theme Tokens ──────────────────────────────────────────────────────────
+   All colors go through CSS variables. No hardcoded hex in components.
+   Layer 1: app-level light/dark tokens.
+   Layer 2: team brand tokens (injected dynamically after login, see lib/theme.ts).
+──────────────────────────────────────────────────────────────────────────────── */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+    /* Background */
+    --bg-primary: #f0f9f8;
+    --bg-secondary: #ffffff;
+    --bg-surface: #ffffff;
+    --bg-surface-raised: #f7fafa;
+
+    /* Grid overlay */
+    --grid-color: var(--bg-secondary);
+    --grid-size: 32px;
+
+    /* Text */
+    --text-primary: #0f1a19;
+    --text-secondary: #4a6562;
+    --text-disabled: #93b0ad;
+
+    /* Border */
+    --border-subtle: rgba(0, 0, 0, 0.08);
+    --border-default: rgba(0, 0, 0, 0.14);
+
+    /* Accent */
+    --accent-primary: #4db8b0;
+    --accent-secondary: #2e8c85;
+    --accent-muted: rgba(77, 184, 176, 0.12);
+    --accent-foreground: #ffffff;
+
+    /* Semantic */
+    --color-error-base: #e5484d;
+    --color-error-muted: rgba(229, 72, 77, 0.1);
+    --color-success-base: #30a46c;
+    --color-warning-base: #f76b15;
+
+    /* Radix bridge */
+    --background: var(--bg-primary);
+    --foreground: var(--text-primary);
+
+    /* ─── Login Page Tokens ──────────────────────────────────────────────────
+       Scoped to the login/auth surface so tweaks don't bleed into the app.
+    ──────────────────────────────────────────────────────────────────────── */
+    --login-bg: #263238;
+    --login-surface: rgba(38, 50, 56, 0.3);
+    --login-surface-dark: rgba(35, 35, 35, 0.4);
+    --login-brand: #75BEBF;
+    --login-brand-fg: #232323;
+    --login-brand-muted: rgba(117, 190, 191, 0.1);
+    --login-brand-subtle: rgba(117, 190, 191, 0.2);
+    --login-input-bg: rgba(255, 255, 255, 0.05);
+    --login-input-border: rgba(255, 255, 255, 0.1);
+    --login-divider: rgba(255, 255, 255, 0.1);
+    --login-text: rgba(255, 255, 255, 0.9);
+    --login-text-muted: rgba(255, 255, 255, 0.6);
+    --login-text-dim: rgba(255, 255, 255, 0.5);
+    --login-text-faint: rgba(255, 255, 255, 0.4);
+    --login-text-ghost: rgba(255, 255, 255, 0.3);
+    --login-icon-bg: rgba(117, 190, 191, 0.05);
+    --login-grid-color: rgba(117, 190, 191, 0.3);
 }
+
+[data-theme="dark"] {
+    --bg-primary: #232323;
+    --bg-secondary: #263238;
+    --bg-surface: #1e2828;
+    --bg-surface-raised: #243030;
+    --grid-color: rgba(38, 50, 56, 1);
+    --text-primary: #ebf5f3;
+    --text-secondary: #7aa8a4;
+    --text-disabled: #3d6460;
+    --border-subtle: rgba(255, 255, 255, 0.06);
+    --border-default: rgba(255, 255, 255, 0.1);
+    --accent-primary: #5ecec5;
+    --accent-secondary: #3da8a0;
+    --accent-muted: rgba(94, 206, 197, 0.12);
+    --accent-foreground: #0f1a19;
+    --color-error-base: #f2555a;
+    --color-error-muted: rgba(242, 85, 90, 0.12);
+    --color-success-base: #3dd68c;
+    --color-warning-base: #ff8b3e;
+    --background: var(--bg-primary);
+    --foreground: var(--text-primary);
+}
+
+/* ─── Tailwind v4 Theme Registration ────────────────────────────────────────── */
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+    --color-bg-primary: var(--bg-primary);
+    --color-bg-secondary: var(--bg-secondary);
+    --color-bg-surface: var(--bg-surface);
+    --color-bg-surface-raised: var(--bg-surface-raised);
+    --color-text-primary: var(--text-primary);
+    --color-text-secondary: var(--text-secondary);
+    --color-text-disabled: var(--text-disabled);
+    --color-accent-primary: var(--accent-primary);
+    --color-accent-secondary: var(--accent-secondary);
+    --color-accent-muted: var(--accent-muted);
+    --color-accent-foreground: var(--accent-foreground);
+    --color-border-subtle: var(--border-subtle);
+    --color-border-default: var(--border-default);
+    --color-error: var(--color-error-base);
+    --color-success: var(--color-success-base);
+    --color-warning: var(--color-warning-base);
+    --font-sans: var(--font-geist-sans);
+    --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ─── Background Utilities ───────────────────────────────────────────────────── */
+
+.bg-primary {
+    background-color: var(--bg-primary);
+    background-image: linear-gradient(var(--grid-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+    background-size: var(--grid-size) var(--grid-size);
+}
+
+.bg-secondary {
+    background-color: var(--bg-secondary);
+}
+
+/* ─── Login Page Utilities ───────────────────────────────────────────────────── */
+
+/* Animated grid overlay on the left hero panel */
+.login-grid-bg {
+    background-image:
+            linear-gradient(to right, var(--login-grid-color) 1px, transparent 1px),
+            linear-gradient(to bottom, var(--login-grid-color) 1px, transparent 1px);
+    background-size: 40px 40px;
+    opacity: 0.1;
+}
+
+/* Frosted feature card */
+.login-feature-card {
+    background-color: var(--login-surface);
+    border: 1px solid var(--login-input-border);
+    backdrop-filter: blur(4px);
+    border-radius: 0.5rem;
+    padding: 1rem;
+}
+
+/* Stat badge inside the right panel */
+.login-stat-badge {
+    background-color: var(--login-surface-dark);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 0.5rem;
+    padding: 0.75rem;
+    text-align: center;
+}
+
+/* Shared text input inside login forms */
+.login-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    background-color: var(--login-input-bg);
+    border: 1px solid var(--login-input-border);
+    color: #fff;
+    transition: box-shadow 0.2s, border-color 0.2s;
+}
+
+.login-input::placeholder {
+    color: var(--login-text-faint);
+}
+
+.login-input:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--login-brand);
+    border-color: transparent;
+}
+
+/* Primary CTA button */
+.login-btn-primary {
+    width: 100%;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    background-color: var(--login-brand);
+    color: var(--login-brand-fg);
+    font-weight: 500;
+    transition: opacity 0.2s;
+}
+
+.login-btn-primary:hover {
+    opacity: 0.9;
+}
+
+/* ─── Base Styles ────────────────────────────────────────────────────────────── */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+.transparent-block {
+    @apply bg-white/30 p-6 rounded-md shadow-md;
+}
+
+.floating-panel {
+    @apply w-[320px] h-[400px] bg-white rounded-md shadow-lg p-4;
+}
+
+html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    min-height: 100dvh;
 }
+
+/* ─── Scrollbar ──────────────────────────────────────────────────────────────── */
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-default); border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-disabled); }
