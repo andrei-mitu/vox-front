@@ -3,6 +3,7 @@
 import {Input} from "../input/Input"
 import { useState } from "react"
 import { useAuthStore } from "@/store/authStore"
+import { validateForm } from "@/utils/validation"
 
 import {Button} from "../Button"
 
@@ -15,23 +16,13 @@ export function RequestAccessForm() {
   const { requestAccess, isLoading, error, accessMessage, accessRequested } = useAuthStore();
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const { RequestAccessSchema } = await import("@/lib/validations/auth");
-    const result = RequestAccessSchema.safeParse({ email, name, phone, companyName, position });
-    if (!result.success) {
-      const fieldErrors: Record<string, string> = {};
-      result.error.issues.forEach((err) => {
-        if (err.path && err.path.length > 0) {
-          fieldErrors[err.path[0] as string] = err.message;
-        }
-      });
-      setFormErrors(fieldErrors);
-      return;
-    }
-    setFormErrors({});
-    await requestAccess({ name, email, phone, companyName, position });
-  };
+    const handleSubmit = async (e: React.FormEvent) => {
+      e.preventDefault();
+      const { RequestAccessSchema } = await import("@/lib/validations/auth");
+      const isValid = await validateForm(RequestAccessSchema, { email, name, phone, companyName, position }, setFormErrors);
+      if (!isValid) return;
+      await requestAccess({ name, email, phone, companyName, position });
+    };
 
 
 

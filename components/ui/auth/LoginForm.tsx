@@ -5,6 +5,7 @@ import {Checkbox} from "../input/Checkbox"
 import {Button} from "../Button"
 import { useState } from "react"
 import { useAuthStore } from "@/store/authStore"
+import { validateForm } from "@/utils/validation"
 
 export function LoginForm() {
   const [email, setEmail] = useState("");
@@ -13,24 +14,13 @@ export function LoginForm() {
   const { loginStep1, isLoading, error } = useAuthStore();
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    // Validate using Zod schema
-    const { LoginSchema } = await import("@/lib/validations/auth");
-    const result = LoginSchema.safeParse({ email, password, rememberMe });
-    if (!result.success) {
-      const fieldErrors: Record<string, string> = {};
-      result.error.issues.forEach((err) => {
-        if (err.path && err.path.length > 0) {
-          fieldErrors[err.path[0] as string] = err.message;
-        }
-      });
-      setFormErrors(fieldErrors);
-      return;
-    }
-    setFormErrors({});
-    await loginStep1({ email, password, rememberMe });
-  };
+    const handleSubmit = async (e: React.FormEvent) => {
+      e.preventDefault();
+      const { LoginSchema } = await import("@/lib/validations/auth");
+      const isValid = await validateForm(LoginSchema, { email, password, rememberMe }, setFormErrors);
+      if (!isValid) return;
+      await loginStep1({ email, password, rememberMe });
+    };
 
 
     return (
