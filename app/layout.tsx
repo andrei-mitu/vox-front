@@ -1,6 +1,5 @@
 import "./globals.css"
-import {THEME_SCRIPT} from "@/lib/theme"
-import {ThemeProvider} from "@/components/ThemeProvider";
+import { Theme } from '@radix-ui/themes';
 
 export default function RootLayout({
                                        children,
@@ -8,15 +7,12 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en" suppressHydrationWarning>
-        <head>
-            <script dangerouslySetInnerHTML={{__html: THEME_SCRIPT}}/>
-        </head>
+        <html>
         <body>
-        <ThemeProvider>
+        <Theme>
             {children}
-        </ThemeProvider>
+        </Theme>
         </body>
         </html>
-    )
+    );
 }

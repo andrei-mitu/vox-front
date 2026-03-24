@@ -1,194 +1,122 @@
 @import "tailwindcss";
+@import '@radix-ui/themes/styles.css';
 
-/* ─── App Theme Tokens ──────────────────────────────────────────────────────────
-   All colors go through CSS variables. No hardcoded hex in components.
-   Layer 1: app-level light/dark tokens.
-   Layer 2: team brand tokens (injected dynamically after login, see lib/theme.ts).
+/* ─── VOX Design Tokens ────────────────────────────────────────────────────────
+   Dark theme (default).
+   To enable light theme, add class="light" to <html> or any ancestor element.
 ──────────────────────────────────────────────────────────────────────────────── */
 
 :root {
-    /* Background */
-    --bg-primary: #f0f9f8;
-    --bg-secondary: #ffffff;
-    --bg-surface: #ffffff;
-    --bg-surface-raised: #f7fafa;
+    /* Brand */
+    --vox-accent:               #75BEBF;
+    --vox-accent-hover:         #8ecbcc;
+    --vox-accent-muted:         rgba(117, 190, 191, 0.15);
+    --vox-accent-border:        rgba(117, 190, 191, 0.3);
 
-    /* Grid overlay */
-    --grid-color: var(--bg-secondary);
-    --grid-size: 32px;
+    /* Surface */
+    --vox-bg-base:              #1a2428;
+    --vox-bg-panel:             #263238;
+    --vox-bg-card:              rgba(38, 50, 56, 0.30);
+    --vox-bg-input:             rgba(255, 255, 255, 0.05);
+    --vox-bg-stat:              rgba(35, 35, 35, 0.40);
 
     /* Text */
-    --text-primary: #0f1a19;
-    --text-secondary: #4a6562;
-    --text-disabled: #93b0ad;
-
-    /* Border */
-    --border-subtle: rgba(0, 0, 0, 0.08);
-    --border-default: rgba(0, 0, 0, 0.14);
-
-    /* Accent */
-    --accent-primary: #4db8b0;
-    --accent-secondary: #2e8c85;
-    --accent-muted: rgba(77, 184, 176, 0.12);
-    --accent-foreground: #ffffff;
+    --vox-text-primary:         rgba(255, 255, 255, 0.92);
+    --vox-text-secondary:       rgba(255, 255, 255, 0.60);
+    --vox-text-muted:           rgba(255, 255, 255, 0.35);
 
     /* Semantic */
-    --color-error-base: #e5484d;
-    --color-error-muted: rgba(229, 72, 77, 0.1);
-    --color-success-base: #30a46c;
-    --color-warning-base: #f76b15;
+    --vox-error:                #f87171;
+    --vox-border-subtle:        rgba(255, 255, 255, 0.08);
+    --vox-border-card:          rgba(255, 255, 255, 0.05);
 
-    /* Radix bridge */
-    --background: var(--bg-primary);
-    --foreground: var(--text-primary);
+    /* Grid background */
+    --vox-grid-color:           rgba(117, 190, 191, 0.25);
+    --vox-grid-size:            40px;
 
-    /* ─── Login Page Tokens ──────────────────────────────────────────────────
-       Scoped to the login/auth surface so tweaks don't bleed into the app.
-    ──────────────────────────────────────────────────────────────────────── */
-    --login-bg: #263238;
-    --login-surface: rgba(38, 50, 56, 0.3);
-    --login-surface-dark: rgba(35, 35, 35, 0.4);
-    --login-brand: #75BEBF;
-    --login-brand-fg: #232323;
-    --login-brand-muted: rgba(117, 190, 191, 0.1);
-    --login-brand-subtle: rgba(117, 190, 191, 0.2);
-    --login-input-bg: rgba(255, 255, 255, 0.05);
-    --login-input-border: rgba(255, 255, 255, 0.1);
-    --login-divider: rgba(255, 255, 255, 0.1);
-    --login-text: rgba(255, 255, 255, 0.9);
-    --login-text-muted: rgba(255, 255, 255, 0.6);
-    --login-text-dim: rgba(255, 255, 255, 0.5);
-    --login-text-faint: rgba(255, 255, 255, 0.4);
-    --login-text-ghost: rgba(255, 255, 255, 0.3);
-    --login-icon-bg: rgba(117, 190, 191, 0.05);
-    --login-grid-color: rgba(117, 190, 191, 0.3);
+    /* Button internals (used by Button.tsx variants) */
+    --bg-primary:               var(--vox-bg-base);
+    --bg-secondary:             var(--vox-bg-panel);
+    --accent-secondary:         var(--vox-accent-hover);
+    --border-subtle:            var(--vox-border-subtle);
 }
 
-[data-theme="dark"] {
-    --bg-primary: #232323;
-    --bg-secondary: #263238;
-    --bg-surface: #1e2828;
-    --bg-surface-raised: #243030;
-    --grid-color: rgba(38, 50, 56, 1);
-    --text-primary: #ebf5f3;
-    --text-secondary: #7aa8a4;
-    --text-disabled: #3d6460;
-    --border-subtle: rgba(255, 255, 255, 0.06);
-    --border-default: rgba(255, 255, 255, 0.1);
-    --accent-primary: #5ecec5;
-    --accent-secondary: #3da8a0;
-    --accent-muted: rgba(94, 206, 197, 0.12);
-    --accent-foreground: #0f1a19;
-    --color-error-base: #f2555a;
-    --color-error-muted: rgba(242, 85, 90, 0.12);
-    --color-success-base: #3dd68c;
-    --color-warning-base: #ff8b3e;
-    --background: var(--bg-primary);
-    --foreground: var(--text-primary);
+/* ─── Light Theme Override ──────────────────────────────────────────────────────
+   Add class="light" to <html> (or any wrapper) to activate.
+   Only color tokens change — all components and layouts adapt automatically.
+──────────────────────────────────────────────────────────────────────────────── */
+
+.light {
+    /* Brand — slightly deeper accent for contrast on light backgrounds */
+    --vox-accent:               #3fa0a1;
+    --vox-accent-hover:         #2d8a8b;
+    --vox-accent-muted:         rgba(63, 160, 161, 0.12);
+    --vox-accent-border:        rgba(63, 160, 161, 0.35);
+
+    /* Surface */
+    --vox-bg-base:              #f0f4f5;
+    --vox-bg-panel:             #ffffff;
+    --vox-bg-card:              rgba(255, 255, 255, 0.80);
+    --vox-bg-input:             rgba(0, 0, 0, 0.04);
+    --vox-bg-stat:              rgba(240, 244, 245, 0.80);
+
+    /* Text */
+    --vox-text-primary:         rgba(0, 0, 0, 0.88);
+    --vox-text-secondary:       rgba(0, 0, 0, 0.55);
+    --vox-text-muted:           rgba(0, 0, 0, 0.35);
+
+    /* Semantic */
+    --vox-error:                #dc2626;
+    --vox-border-subtle:        rgba(0, 0, 0, 0.10);
+    --vox-border-card:          rgba(0, 0, 0, 0.07);
+
+    /* Grid */
+    --vox-grid-color:           rgba(63, 160, 161, 0.20);
+
+    /* Button internals */
+    --bg-primary:               var(--vox-bg-base);
+    --bg-secondary:             var(--vox-bg-panel);
+    --accent-secondary:         var(--vox-accent-hover);
+    --border-subtle:            var(--vox-border-subtle);
 }
 
-/* ─── Tailwind v4 Theme Registration ────────────────────────────────────────── */
+/* ─── Radix UI Theme Overrides ──────────────────────────────────────────────────
+   Maps Radix accent scale → VOX accent.
+   Affects TextField focus rings, Checkbox, Link color, TextArea, etc.
+──────────────────────────────────────────────────────────────────────────────── */
 
-@theme inline {
-    --color-bg-primary: var(--bg-primary);
-    --color-bg-secondary: var(--bg-secondary);
-    --color-bg-surface: var(--bg-surface);
-    --color-bg-surface-raised: var(--bg-surface-raised);
-    --color-text-primary: var(--text-primary);
-    --color-text-secondary: var(--text-secondary);
-    --color-text-disabled: var(--text-disabled);
-    --color-accent-primary: var(--accent-primary);
-    --color-accent-secondary: var(--accent-secondary);
-    --color-accent-muted: var(--accent-muted);
-    --color-accent-foreground: var(--accent-foreground);
-    --color-border-subtle: var(--border-subtle);
-    --color-border-default: var(--border-default);
-    --color-error: var(--color-error-base);
-    --color-success: var(--color-success-base);
-    --color-warning: var(--color-warning-base);
-    --font-sans: var(--font-geist-sans);
-    --font-mono: var(--font-geist-mono);
+.radix-themes {
+    --accent-9:                 var(--vox-accent);
+    --accent-10:                var(--vox-accent-hover);
+    --accent-a3:                var(--vox-accent-muted);
+    --accent-indicator:         var(--vox-accent);
+    --accent-track:             var(--vox-accent);
+    --color-background:         var(--vox-bg-base);
+
+    /* TextField / TextArea border + focus */
+    --text-field-border-color:  var(--vox-border-subtle);
+    --text-field-focus-color:   var(--vox-accent);
+
+    /* Focus ring (TextField, Checkbox, etc.) */
+    --focus-8:                  var(--vox-accent);
+
+    /* Surface overrides so Radix panels use VOX surfaces */
+    --color-panel-solid:        var(--vox-bg-panel);
+    --color-panel-translucent:  var(--vox-bg-card);
 }
 
-/* ─── Background Utilities ───────────────────────────────────────────────────── */
+/* ─── Utility Aliases ───────────────────────────────────────────────────────────
+   Used throughout components via className="..."
+──────────────────────────────────────────────────────────────────────────────── */
 
-.bg-primary {
-    background-color: var(--bg-primary);
-    background-image: linear-gradient(var(--grid-color) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
-    background-size: var(--grid-size) var(--grid-size);
-}
+.text-text-primary      { color: var(--vox-text-primary); }
+.text-text-secondary    { color: var(--vox-text-secondary); }
+.text-text-muted        { color: var(--vox-text-muted); }
+.text-accent-primary    { color: var(--vox-accent); }
+.text-error             { color: var(--vox-error); }
+.border-error           { border-color: var(--vox-error) !important; }
 
-.bg-secondary {
-    background-color: var(--bg-secondary);
-}
-
-/* ─── Login Page Utilities ───────────────────────────────────────────────────── */
-
-/* Animated grid overlay on the left hero panel */
-.login-grid-bg {
-    background-image:
-            linear-gradient(to right, var(--login-grid-color) 1px, transparent 1px),
-            linear-gradient(to bottom, var(--login-grid-color) 1px, transparent 1px);
-    background-size: 40px 40px;
-    opacity: 0.1;
-}
-
-/* Frosted feature card */
-.login-feature-card {
-    background-color: var(--login-surface);
-    border: 1px solid var(--login-input-border);
-    backdrop-filter: blur(4px);
-    border-radius: 0.5rem;
-    padding: 1rem;
-}
-
-/* Stat badge inside the right panel */
-.login-stat-badge {
-    background-color: var(--login-surface-dark);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 0.5rem;
-    padding: 0.75rem;
-    text-align: center;
-}
-
-/* Shared text input inside login forms */
-.login-input {
-    width: 100%;
-    padding: 0.75rem 1rem;
-    border-radius: 0.5rem;
-    background-color: var(--login-input-bg);
-    border: 1px solid var(--login-input-border);
-    color: #fff;
-    transition: box-shadow 0.2s, border-color 0.2s;
-}
-
-.login-input::placeholder {
-    color: var(--login-text-faint);
-}
-
-.login-input:focus {
-    outline: none;
-    box-shadow: 0 0 0 2px var(--login-brand);
-    border-color: transparent;
-}
-
-/* Primary CTA button */
-.login-btn-primary {
-    width: 100%;
-    padding: 0.75rem;
-    border-radius: 0.5rem;
-    background-color: var(--login-brand);
-    color: var(--login-brand-fg);
-    font-weight: 500;
-    transition: opacity 0.2s;
-}
-
-.login-btn-primary:hover {
-    opacity: 0.9;
-}
-
-/* ─── Base Styles ────────────────────────────────────────────────────────────── */
+/* ─── Base Reset ────────────────────────────────────────────────────────────── */
 
 *,
 *::before,
@@ -196,29 +124,94 @@
     box-sizing: border-box;
 }
 
-.transparent-block {
-    @apply bg-white/30 p-6 rounded-md shadow-md;
-}
-
-.floating-panel {
-    @apply w-[320px] h-[400px] bg-white rounded-md shadow-lg p-4;
-}
-
-html {
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-rendering: optimizeLegibility;
-}
-
+html,
 body {
-    background-color: var(--bg-primary);
-    color: var(--text-primary);
-    min-height: 100dvh;
+    height: 100%;
+    margin: 0;
+    background-color: var(--vox-bg-base);
+    color: var(--vox-text-primary);
 }
 
-/* ─── Scrollbar ──────────────────────────────────────────────────────────────── */
+/* ─── Grid Background ───────────────────────────────────────────────────────── */
 
-::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--border-default); border-radius: 999px; }
-::-webkit-scrollbar-thumb:hover { background: var(--text-disabled); }
+.bg-grid {
+    background-image:
+            linear-gradient(to right,  var(--vox-grid-color) 1px, transparent 1px),
+            linear-gradient(to bottom, var(--vox-grid-color) 1px, transparent 1px);
+    background-size: var(--vox-grid-size) var(--vox-grid-size);
+}
+
+/* ─── Shared Component Defaults ─────────────────────────────────────────────────
+   Targets Radix UI primitives used inside TextInput, PasswordInput,
+   TextareaInput, and Card — they inherit VOX tokens automatically.
+   No per-component CSS needed beyond this.
+──────────────────────────────────────────────────────────────────────────────── */
+
+/* TextField.Root — used by TextInput + PasswordInput */
+.rt-TextFieldRoot {
+    background-color: var(--vox-bg-input) !important;
+    border-color: var(--vox-border-subtle) !important;
+    color: var(--vox-text-primary) !important;
+    transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.rt-TextFieldRoot:focus-within {
+    border-color: var(--vox-accent) !important;
+    box-shadow: 0 0 0 2px var(--vox-accent-muted) !important;
+}
+
+.rt-TextFieldInput::placeholder {
+    color: var(--vox-text-muted) !important;
+}
+
+/* TextField.Slot — used by PasswordInput's eye toggle */
+.rt-TextFieldSlot {
+    color: var(--vox-text-muted);
+}
+
+/* TextArea — used by TextareaInput */
+.rt-TextAreaRoot {
+    background-color: var(--vox-bg-input) !important;
+    border-color: var(--vox-border-subtle) !important;
+    color: var(--vox-text-primary) !important;
+    transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.rt-TextAreaRoot:focus-within {
+    border-color: var(--vox-accent) !important;
+    box-shadow: 0 0 0 2px var(--vox-accent-muted) !important;
+}
+
+.rt-TextAreaInput {
+    resize: none;
+}
+
+.rt-TextAreaInput::placeholder {
+    color: var(--vox-text-muted) !important;
+}
+
+/* Radix Card — used by Card.tsx */
+.rt-Card {
+    background-color: var(--vox-bg-panel) !important;
+    border-color: var(--vox-border-card) !important;
+}
+
+/* Radix Link — used in LoginForm for "Forgot password?" */
+.rt-Link {
+    color: var(--vox-accent) !important;
+}
+
+.rt-Link:hover {
+    color: var(--vox-accent-hover) !important;
+}
+
+/* Radix Checkbox — used in LoginForm for "Remember me" */
+.rt-CheckboxRoot {
+    border-color: var(--vox-border-subtle) !important;
+    background-color: var(--vox-bg-input) !important;
+}
+
+.rt-CheckboxRoot[data-state='checked'] {
+    background-color: var(--vox-accent) !important;
+    border-color: var(--vox-accent) !important;
+}

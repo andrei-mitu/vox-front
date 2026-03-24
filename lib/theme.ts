@@ -106,7 +106,7 @@ export function watchSystemTheme(
 export function applyTeamBrand(brand: TeamBrand): void {
     const root = document.documentElement
 
-    root.style.setProperty("--accent-primary", brand.accentPrimary)
+    root.style.setProperty("--vox-accent", brand.accentPrimary)
     root.style.setProperty("--accent-secondary", brand.accentSecondary)
     root.style.setProperty("--accent-muted", brand.accentMuted)
     root.style.setProperty("--accent-foreground", brand.accentForeground)

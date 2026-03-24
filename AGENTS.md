@@ -213,6 +213,12 @@ const data = await clientApiFetch<Competition[]>(endpoints.competitions, locale)
 - Use `@radix-ui/themes` primitives (`Box`, `Flex`, `Text`, `Button`, etc.)
 - Merge Tailwind classes with `tw()` utility from `@/lib/tw`
 
+### Page Component Rules
+- Pages may only import **internal components** (located in `components/ui` or similar) that are built on top of Radix Theme primitives.
+- All form inputs must use a custom internal input component (e.g., `TextInput`, `PasswordInput`, etc.) and be validated with Zod schema types: email, password, string, number, or phone number.
+- Inline `style` attributes are prohibited; styling must be applied via Tailwind class names, `global.css`, or a page‑specific `{{page}}.css` file placed alongside the page.
+- Validation schemas should reside in `lib/validations` and be referenced by the page component.
+
 ```typescript
 <Flex
     className={tw(

@@ -76,7 +76,7 @@ export const useThemeStore = create<ThemeState & ThemeActions>((set, get) => ({
     clearBrand: () => {
         // Reset accent variables back to defaults defined in globals.css
         const root = document.documentElement
-        root.style.removeProperty("--accent-primary")
+        root.style.removeProperty("--vox-accent")
         root.style.removeProperty("--accent-secondary")
         root.style.removeProperty("--accent-muted")
         root.style.removeProperty("--accent-foreground")
