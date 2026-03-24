@@ -1,0 +1,110 @@
+    /* PhoneInput - Minimal styling for dropdown */
+
+/* Dropdown styling only - let intl-tel-input handle flags */
+.iti__dropdown {
+    border-radius: 8px;
+    border: 1px solid #d1d5db;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.iti__list {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.iti__list-item {
+    padding: 8px 12px;
+    transition: background-color 0.15s ease-in-out;
+    font-size: 14px;
+}
+
+.iti__list-item:hover {
+    background-color: #9ca3af;
+    color: #111827;
+}
+
+.iti__list-item.iti__highlight {
+    background-color: #1f2937;
+    color: #f3f4f6;
+}
+
+.iti__search {
+    padding: 10px 12px;
+    border-bottom: 1px solid #d1d5db;
+}
+
+.iti__search input {
+    background-color: #ffffff;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    color: #111827;
+    padding: 6px 8px;
+    width: 100%;
+    font-size: 14px;
+}
+
+.iti__search input::placeholder {
+    color: #9ca3af;
+}
+
+.iti__dropdown-content {
+    border-radius: 12px !important;
+    overflow: hidden !important;
+}
+
+.iti__search-input:focus {
+    outline: none;
+}
+
+/* Dark mode */
+.dark .iti__dropdown {
+    border-color: #374151;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+    background-color: #1f2937;
+}
+
+.dark .iti__list-item {
+    color: #f3f4f6;
+}
+
+.dark .iti__list-item:hover {
+    background-color: #4b5563;
+}
+
+.dark .iti__list-item.iti__highlight {
+    background-color: #111827;
+    color: #f3f4f6;
+}
+
+.dark .iti__search {
+    border-bottom-color: #374151;
+}
+
+.dark .iti__search input {
+    background-color: #111827;
+    border-color: #374151;
+    color: #f3f4f6;
+}
+
+/* Scrollbar */
+.iti__list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.iti__list::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.iti__list::-webkit-scrollbar-thumb {
+    background: #d1d5db;
+    border-radius: 3px;
+}
+
+.dark .iti__list::-webkit-scrollbar-thumb {
+    background: #4b5563;
+}
+
+.dark .iti__selected-dial-code {
+    color: #A3A3A3;
+}

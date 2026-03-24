@@ -1,217 +1,133 @@
 @import "tailwindcss";
 @import '@radix-ui/themes/styles.css';
 
-/* ─── VOX Design Tokens ────────────────────────────────────────────────────────
-   Dark theme (default).
-   To enable light theme, add class="light" to <html> or any ancestor element.
-──────────────────────────────────────────────────────────────────────────────── */
+@theme {
+    --font-primary: 'DM Sans', sans-serif;
+    --font-secondary: 'Roboto', sans-serif;
+    --grid-size: 30px;
 
+    --breakpoint-xxs: 21rem;
+    --breakpoint-xs: 30rem;
+}
+
+/* ─── Design Tokens ─────────────────────────────────────────────────────────── */
 :root {
-    /* Brand */
-    --vox-accent:               #75BEBF;
-    --vox-accent-hover:         #8ecbcc;
-    --vox-accent-muted:         rgba(117, 190, 191, 0.15);
-    --vox-accent-border:        rgba(117, 190, 191, 0.3);
-
-    /* Surface */
-    --vox-bg-base:              #1a2428;
-    --vox-bg-panel:             #263238;
-    --vox-bg-card:              rgba(38, 50, 56, 0.30);
-    --vox-bg-input:             rgba(255, 255, 255, 0.05);
-    --vox-bg-stat:              rgba(35, 35, 35, 0.40);
+    /* Background */
+    --bg-primary: #1a2328; /* deepest background, page base        */
+    --bg-secondary: #263238; /* card / panel surface                 */
+    --bg-muted: #2e3c43; /* subtle raised surface, hover states  */
 
     /* Text */
-    --vox-text-primary:         rgba(255, 255, 255, 0.92);
-    --vox-text-secondary:       rgba(255, 255, 255, 0.60);
-    --vox-text-muted:           rgba(255, 255, 255, 0.35);
+    --text-primary: rgba(255, 255, 255, 0.92); /* headings, labels          */
+    --text-secondary: rgba(255, 255, 255, 0.60); /* body, descriptions        */
+    --text-muted: rgba(255, 255, 255, 0.35); /* placeholders, captions    */
 
-    /* Semantic */
-    --vox-error:                #f87171;
-    --vox-border-subtle:        rgba(255, 255, 255, 0.08);
-    --vox-border-card:          rgba(255, 255, 255, 0.05);
+    /* Accent (teal brand colour) */
+    --accent-primary: #75BEBF; /* main brand teal            */
+    --accent-secondary: rgba(117, 190, 191, .20); /* ghost / outline tint       */
+    --accent-muted: rgba(117, 190, 191, .08); /* very subtle fill           */
 
-    /* Grid background */
-    --vox-grid-color:           rgba(117, 190, 191, 0.25);
-    --vox-grid-size:            40px;
+    /* Borders */
+    --border-default: rgba(255, 255, 255, 0.08);
+    --border-accent: rgba(117, 190, 191, 0.40);
 
-    /* Button internals (used by Button.tsx variants) */
-    --bg-primary:               var(--vox-bg-base);
-    --bg-secondary:             var(--vox-bg-panel);
-    --accent-secondary:         var(--vox-accent-hover);
-    --border-subtle:            var(--vox-border-subtle);
+    /* Shadows */
+    --shadow-card: 0 24px 64px rgba(0, 0, 0, 0.45);
 }
 
-/* ─── Light Theme Override ──────────────────────────────────────────────────────
-   Add class="light" to <html> (or any wrapper) to activate.
-   Only color tokens change — all components and layouts adapt automatically.
-──────────────────────────────────────────────────────────────────────────────── */
+/* ─── Token Utility Classes ─────────────────────────────────────────────────── */
+@layer utilities {
+    /* — Backgrounds — */
+    .bg-primary {
+        background-color: var(--bg-primary);
+    }
 
-.light {
-    /* Brand — slightly deeper accent for contrast on light backgrounds */
-    --vox-accent:               #3fa0a1;
-    --vox-accent-hover:         #2d8a8b;
-    --vox-accent-muted:         rgba(63, 160, 161, 0.12);
-    --vox-accent-border:        rgba(63, 160, 161, 0.35);
+    .bg-secondary {
+        background-color: var(--bg-secondary);
+    }
 
-    /* Surface */
-    --vox-bg-base:              #f0f4f5;
-    --vox-bg-panel:             #ffffff;
-    --vox-bg-card:              rgba(255, 255, 255, 0.80);
-    --vox-bg-input:             rgba(0, 0, 0, 0.04);
-    --vox-bg-stat:              rgba(240, 244, 245, 0.80);
+    .bg-muted {
+        background-color: var(--bg-muted);
+    }
 
-    /* Text */
-    --vox-text-primary:         rgba(0, 0, 0, 0.88);
-    --vox-text-secondary:       rgba(0, 0, 0, 0.55);
-    --vox-text-muted:           rgba(0, 0, 0, 0.35);
+    .bg-accent-primary {
+        background-color: var(--accent-primary);
+    }
 
-    /* Semantic */
-    --vox-error:                #dc2626;
-    --vox-border-subtle:        rgba(0, 0, 0, 0.10);
-    --vox-border-card:          rgba(0, 0, 0, 0.07);
+    .bg-accent-secondary {
+        background-color: var(--accent-secondary);
+    }
 
-    /* Grid */
-    --vox-grid-color:           rgba(63, 160, 161, 0.20);
+    .bg-accent-muted {
+        background-color: var(--accent-muted);
+    }
 
-    /* Button internals */
-    --bg-primary:               var(--vox-bg-base);
-    --bg-secondary:             var(--vox-bg-panel);
-    --accent-secondary:         var(--vox-accent-hover);
-    --border-subtle:            var(--vox-border-subtle);
+    /* — Text — */
+    .text-primary {
+        color: var(--text-primary);
+    }
+
+    .text-secondary {
+        color: var(--text-secondary);
+    }
+
+    .text-muted {
+        color: var(--text-muted);
+    }
+
+    .text-accent-primary {
+        color: var(--accent-primary);
+    }
+
+    .text-accent-secondary {
+        color: var(--accent-secondary);
+    }
+
+    .text-accent-muted {
+        color: var(--accent-muted);
+    }
+
+    /* — Borders — */
+    .border-default {
+        border-color: var(--border-default);
+    }
+
+    .border-accent {
+        border-color: var(--border-accent);
+    }
+
+    /* — Shadow — */
+    .shadow-card {
+        box-shadow: var(--shadow-card);
+    }
 }
 
-/* ─── Radix UI Theme Overrides ──────────────────────────────────────────────────
-   Maps Radix accent scale → VOX accent.
-   Affects TextField focus rings, Checkbox, Link color, TextArea, etc.
-──────────────────────────────────────────────────────────────────────────────── */
-
-.radix-themes {
-    --accent-9:                 var(--vox-accent);
-    --accent-10:                var(--vox-accent-hover);
-    --accent-a3:                var(--vox-accent-muted);
-    --accent-indicator:         var(--vox-accent);
-    --accent-track:             var(--vox-accent);
-    --color-background:         var(--vox-bg-base);
-
-    /* TextField / TextArea border + focus */
-    --text-field-border-color:  var(--vox-border-subtle);
-    --text-field-focus-color:   var(--vox-accent);
-
-    /* Focus ring (TextField, Checkbox, etc.) */
-    --focus-8:                  var(--vox-accent);
-
-    /* Surface overrides so Radix panels use VOX surfaces */
-    --color-panel-solid:        var(--vox-bg-panel);
-    --color-panel-translucent:  var(--vox-bg-card);
-}
-
-/* ─── Utility Aliases ───────────────────────────────────────────────────────────
-   Used throughout components via className="..."
-──────────────────────────────────────────────────────────────────────────────── */
-
-.text-text-primary      { color: var(--vox-text-primary); }
-.text-text-secondary    { color: var(--vox-text-secondary); }
-.text-text-muted        { color: var(--vox-text-muted); }
-.text-accent-primary    { color: var(--vox-accent); }
-.text-error             { color: var(--vox-error); }
-.border-error           { border-color: var(--vox-error) !important; }
-
-/* ─── Base Reset ────────────────────────────────────────────────────────────── */
-
-*,
-*::before,
-*::after {
-    box-sizing: border-box;
-}
-
-html,
+/* ─── Base ──────────────────────────────────────────────────────────────────── */
 body {
-    height: 100%;
-    margin: 0;
-    background-color: var(--vox-bg-base);
-    color: var(--vox-text-primary);
+    font-family: 'DM Sans', 'Roboto', sans-serif;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    scroll-behavior: smooth;
+    scrollbar-gutter: stable;
 }
 
-/* ─── Grid Background ───────────────────────────────────────────────────────── */
-
-.bg-grid {
-    background-image:
-            linear-gradient(to right,  var(--vox-grid-color) 1px, transparent 1px),
-            linear-gradient(to bottom, var(--vox-grid-color) 1px, transparent 1px);
-    background-size: var(--vox-grid-size) var(--vox-grid-size);
+/* ─── Grid lines helper ─────────────────────────────────────────────────────── */
+.grid-lines {
+    background-image: linear-gradient(to right, var(--accent-primary) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--accent-primary) 1px, transparent 1px);
+    background-size: var(--grid-size) var(--grid-size);
+    opacity: 0.05;
 }
 
-/* ─── Shared Component Defaults ─────────────────────────────────────────────────
-   Targets Radix UI primitives used inside TextInput, PasswordInput,
-   TextareaInput, and Card — they inherit VOX tokens automatically.
-   No per-component CSS needed beyond this.
-──────────────────────────────────────────────────────────────────────────────── */
+/* ─── Utility: no spinner on number inputs ──────────────────────────────────── */
+@layer components {
+    .no-spinner {
+        appearance: textfield;
+    }
 
-/* TextField.Root — used by TextInput + PasswordInput */
-.rt-TextFieldRoot {
-    background-color: var(--vox-bg-input) !important;
-    border-color: var(--vox-border-subtle) !important;
-    color: var(--vox-text-primary) !important;
-    transition: border-color 150ms ease, box-shadow 150ms ease;
-}
-
-.rt-TextFieldRoot:focus-within {
-    border-color: var(--vox-accent) !important;
-    box-shadow: 0 0 0 2px var(--vox-accent-muted) !important;
-}
-
-.rt-TextFieldInput::placeholder {
-    color: var(--vox-text-muted) !important;
-}
-
-/* TextField.Slot — used by PasswordInput's eye toggle */
-.rt-TextFieldSlot {
-    color: var(--vox-text-muted);
-}
-
-/* TextArea — used by TextareaInput */
-.rt-TextAreaRoot {
-    background-color: var(--vox-bg-input) !important;
-    border-color: var(--vox-border-subtle) !important;
-    color: var(--vox-text-primary) !important;
-    transition: border-color 150ms ease, box-shadow 150ms ease;
-}
-
-.rt-TextAreaRoot:focus-within {
-    border-color: var(--vox-accent) !important;
-    box-shadow: 0 0 0 2px var(--vox-accent-muted) !important;
-}
-
-.rt-TextAreaInput {
-    resize: none;
-}
-
-.rt-TextAreaInput::placeholder {
-    color: var(--vox-text-muted) !important;
-}
-
-/* Radix Card — used by Card.tsx */
-.rt-Card {
-    background-color: var(--vox-bg-panel) !important;
-    border-color: var(--vox-border-card) !important;
-}
-
-/* Radix Link — used in LoginForm for "Forgot password?" */
-.rt-Link {
-    color: var(--vox-accent) !important;
-}
-
-.rt-Link:hover {
-    color: var(--vox-accent-hover) !important;
-}
-
-/* Radix Checkbox — used in LoginForm for "Remember me" */
-.rt-CheckboxRoot {
-    border-color: var(--vox-border-subtle) !important;
-    background-color: var(--vox-bg-input) !important;
-}
-
-.rt-CheckboxRoot[data-state='checked'] {
-    background-color: var(--vox-accent) !important;
-    border-color: var(--vox-accent) !important;
+    .no-spinner::-webkit-outer-spin-button,
+    .no-spinner::-webkit-inner-spin-button {
+        appearance: none;
+        margin: 0;
+    }
 }
