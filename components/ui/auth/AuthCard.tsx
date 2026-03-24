@@ -55,8 +55,6 @@ export function AuthCard({activeTab, onTabChange}: AuthCardProps) {
                             Need help? <a href="mailto:support@vox-tms.com"
                                           className="text-accent-primary hover:underline">support@vox-tms.com</a>
                         </p>
-                        <p className="text-xs text-muted/60">© 2026 VOX Transport Management System. All rights
-                            reserved.</p>
                     </div>
                 </div>
             </div>

@@ -6,6 +6,7 @@ import { useAuthStore } from "@/store/authStore"
 import { validateForm } from "@/utils/validation"
 
 import {Button} from "../Button"
+import {PhoneInput} from "@/components/ui/input/PhoneInput";
 
 export function RequestAccessForm() {
   const [name, setName] = useState("");
@@ -44,9 +45,8 @@ export function RequestAccessForm() {
                 onChange={(e) => setEmail(e.target.value)}
                 error={formErrors.email}
             />
-            <Input
+            <PhoneInput
                 id="phone"
-                type="text"
                 label="Phone"
                 placeholder="Enter your phone number"
                 value={phone}
