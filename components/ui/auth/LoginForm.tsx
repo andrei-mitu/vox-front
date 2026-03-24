@@ -32,8 +32,8 @@ export function LoginForm() {
                 placeholder="Enter your email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                error={formErrors.email}
             />
-            {formErrors.email && <p className="text-sm text-error">{formErrors.email}</p>}
             <Input
                 id="password"
                 type="password"
@@ -41,8 +41,8 @@ export function LoginForm() {
                 placeholder="Enter your password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                error={formErrors.password}
             />
-            {formErrors.password && <p className="text-sm text-error">{formErrors.password}</p>}
             <div className="flex items-center justify-between">
                 <Checkbox
                     id="remember"

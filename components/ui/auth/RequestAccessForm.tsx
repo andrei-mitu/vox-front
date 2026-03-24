@@ -24,8 +24,6 @@ export function RequestAccessForm() {
       await requestAccess({ name, email, phone, companyName, position });
     };
 
-
-
     return (
         <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
             <Input
@@ -35,8 +33,8 @@ export function RequestAccessForm() {
                 placeholder="Enter your full name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
+                error={formErrors.name}
             />
-            {formErrors.name && <p className="text-sm text-error">{formErrors.name}</p>}
             <Input
                 id="email"
                 type="email"
@@ -44,8 +42,8 @@ export function RequestAccessForm() {
                 placeholder="Enter your email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                error={formErrors.email}
             />
-            {formErrors.email && <p className="text-sm text-error">{formErrors.email}</p>}
             <Input
                 id="phone"
                 type="text"
@@ -53,8 +51,8 @@ export function RequestAccessForm() {
                 placeholder="Enter your phone number"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
+                error={formErrors.phone}
             />
-            {formErrors.phone && <p className="text-sm text-error">{formErrors.phone}</p>}
             <Input
                 id="company"
                 type="text"
@@ -62,8 +60,8 @@ export function RequestAccessForm() {
                 placeholder="Enter your organization"
                 value={companyName}
                 onChange={(e) => setCompanyName(e.target.value)}
+                error={formErrors.companyName}
             />
-            {formErrors.companyName && <p className="text-sm text-error">{formErrors.companyName}</p>}
             <Input
                 id="position"
                 type="text"
@@ -71,8 +69,8 @@ export function RequestAccessForm() {
                 placeholder="Your role / position"
                 value={position}
                 onChange={(e) => setPosition(e.target.value)}
+                error={formErrors.position}
             />
-            {formErrors.position && <p className="text-sm text-error">{formErrors.position}</p>}
             {error && <p className="text-sm text-error">{error}</p>}
             {accessRequested && accessMessage && (
                 <p className="text-sm text-success">{accessMessage}</p>
